@@ -17,4 +17,12 @@ class Paquete{
   setCantidades(List c){
     this.cantidades = c;
   }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'id': ID,
+        'grosor' : Grosor,
+        'largo' : Largo,
+        'cantidades': cantidades,
+      };
 }
