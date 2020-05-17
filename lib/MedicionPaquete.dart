@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'Paquete.dart';
 import 'package:http/http.dart' as http;
@@ -135,9 +134,9 @@ class _MedicionPaqueteState extends State<MedicionPaquete> {
                                 i++) {
                               cont = cont + widget.paquete.cantidades[i];
                             }
-                            print(
-                                'Habías introducido $cont piezas en el paquete.');
+                            print('Habías introducido $cont piezas en el paquete.');
                           });
+                          calcularDatosPaquete();
                           enviarPaquete();
 
                         },
@@ -169,7 +168,6 @@ class _MedicionPaqueteState extends State<MedicionPaquete> {
 
   Future<void> enviarPaquete() async{
 
-    jsonEncode({ 'data': { 'apikey': '12345678901234567890' } });
     var response = await http.post(Uri.encodeFull(url), body: json.encode({ 'paquete': widget.paquete.toJson() }), headers: {
       "content-type" : "application/json",
       "accept" : "application/json",
@@ -177,6 +175,57 @@ class _MedicionPaqueteState extends State<MedicionPaquete> {
 
     print(response.body);
 
+    if(response.body=='exito al guardar en bd'){
+      showAlertDialog(context);
+    }
+
+  }
+
+
+  calcularDatosPaquete() {
+    var cubicoT=0.0;
+    var cubicoP=0.0;
+
+    //Guardar en el objeto el número de piezas y el cúbico para guardarlo en nuestra BD
+    //El numero de piezas es la longitud del array donde guardamos todas las piezas
+    widget.paquete.numpiezas=todos.length;
+
+    //Para calcular el cúbico hacemos una suma del cúbico de cada pieza, recorriendo el array todos,pasando a metros
+    for(var i=0; i<todos.length; i++){
+      cubicoP = (todos[i]/100) * (widget.paquete.Grosor/1000) * (widget.paquete.Largo/1000);
+      cubicoT=cubicoT+cubicoP;
+
+    }
+    cubicoT = num.parse(cubicoT.toStringAsFixed(3));
+    widget.paquete.setCubico(cubicoT) ;
+  }
+
+  showAlertDialog(BuildContext context) {
+
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Paquete guardado"),
+      content: Text("Se ha guardado el paquete con éxito en la base de datos."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class PaquetesBajados extends StatelessWidget {
   const PaquetesBajados({ Key key }) : super(key: key);
@@ -26,5 +27,20 @@ class PaquetesBajados extends StatelessWidget {
         },
       ),
     );
+  }
+
+
+
+
+  Future<void> recibirPaquetes() async{
+
+    var url = 'http://10.0.2.2:3000/paquetes';
+    var response = await http.get(Uri.encodeFull(url));
+
+    print(response.body);
+
+    if(response.body=='exito al guardar en bd'){
+    }
+
   }
 }
