@@ -1,16 +1,16 @@
 //Clase Paquete, para manejar los datos relacionados con este.
-
+import 'dart:convert';
 import 'package:intl/intl.dart';
 class Paquete{
 
-  String ID;
-  int Grosor;
-  int Largo;
+  var id;
+  int grosor;
+  int largo;
   String fecha;
-  bool seco;
+  int seco;
   String estado;
-  bool barroteado;
-  bool homogeneo;
+  int barroteado;
+  int homogeneo;
   double cubico;
   int numpiezas;
   String calidad;
@@ -24,14 +24,14 @@ class Paquete{
 
     this.numpiezas = 0;
     this.cubico = 0.0;
-    this.ID = ID;
+    this.id = ID;
     this.fecha = newFormat.format(dt);
-    this.Grosor = Grosor;
-    this.Largo = Largo;
-    this.seco = true;
+    this.grosor = Grosor;
+    this.largo = Largo;
+    this.seco = 1;
     this.estado = "stock";
-    this.barroteado = false;
-    this.homogeneo = false;
+    this.barroteado = 0;
+    this.homogeneo = 0;
   }
 
   setCantidades(List c){
@@ -41,12 +41,27 @@ class Paquete{
     this.cubico = d;
   }
 
+  Paquete.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        grosor = json['grosor'],
+        largo = json['largo'],
+        cantidades = jsonDecode('[' + json['cantidades'] + ']'),
+        seco = json['seco'],
+        fecha = json['fechaCreacion'],
+        estado = json['estado'],
+        barroteado = json['barroteado'],
+        homogeneo = json['homogeneo'],
+        cubico = json['cubico'],
+        numpiezas = json['numpiezas'],
+        calidad = json['calidad'];
+
+
   Map<String, dynamic> toJson() =>
       {
-        'id': ID,
-        'grosor' : Grosor,
-        'largo' : Largo,
-        'cantidades': cantidades,
+        'id': id,
+        'grosor': grosor,
+        'largo': largo,
+        'cantidades': cantidades.join(','),
         'seco': seco,
         'fecha' : fecha,
         'estado' : estado,

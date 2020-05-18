@@ -6,8 +6,6 @@ import 'package:http/http.dart' as http;
 //Screen donde introducimos la medicion del poaquete introducido anteriormente.
 class MedicionPaquete extends StatefulWidget {
   final Paquete paquete;
-
-  // In the constructor, require a Todo.
   MedicionPaquete({Key key, @required this.paquete}) : super(key: key);
 
   @override
@@ -192,7 +190,8 @@ class _MedicionPaqueteState extends State<MedicionPaquete> {
 
     //Para calcular el cúbico hacemos una suma del cúbico de cada pieza, recorriendo el array todos,pasando a metros
     for(var i=0; i<todos.length; i++){
-      cubicoP = (todos[i]/100) * (widget.paquete.Grosor/1000) * (widget.paquete.Largo/1000);
+      cubicoP = (todos[i] / 100) * (widget.paquete.grosor / 1000) *
+          (widget.paquete.largo / 1000);
       cubicoT=cubicoT+cubicoP;
 
     }
