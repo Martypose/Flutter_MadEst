@@ -11,8 +11,8 @@ class MedicionPaquete extends StatefulWidget {
   @override
   _MedicionPaqueteState createState() => _MedicionPaqueteState();
 }
-
-class _MedicionPaqueteState extends State<MedicionPaquete> {
+//Extiendo clase state con un tickerprovider para controlar los tiempo de UNA animación en mis estados
+class _MedicionPaqueteState extends State<MedicionPaquete>{
   @override
   var ultimapieza;
   var ultimos = [];
@@ -22,12 +22,12 @@ class _MedicionPaqueteState extends State<MedicionPaquete> {
   var url = 'http://10.0.2.2:3000/paquetes';
 
   void initState() {
+    super.initState();
     for (var i = 8; i <= 50; i++) {
       numeros.add(i);
       cantidad.add(0);
     }
     ultimapieza = 0;
-    super.initState();
   }
 
   @override
@@ -179,7 +179,6 @@ class _MedicionPaqueteState extends State<MedicionPaquete> {
 
   }
 
-
   calcularDatosPaquete() {
     var cubicoT=0.0;
     var cubicoP=0.0;
@@ -200,7 +199,6 @@ class _MedicionPaqueteState extends State<MedicionPaquete> {
   }
 
   showAlertDialog(BuildContext context) {
-
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
@@ -226,10 +224,8 @@ class _MedicionPaqueteState extends State<MedicionPaquete> {
       },
     );
   }
-
-
-
 }
+
 
 
 
