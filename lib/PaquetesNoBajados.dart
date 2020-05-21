@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'Paquete.dart';
+import 'DetallesPaquete.dart';
 
 class PaquetesNoBajados extends StatefulWidget {
   @override
@@ -30,24 +31,89 @@ class _PaquetesNoBajadosState extends State<PaquetesNoBajados> {
                 ),
               );
             } else {
-              return ListView.separated(
-                itemCount: paquetes.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('Paquete ID: ${paquetes[index]
-                        .id} Fecha: ${paquetes[index].fecha}',
-                        style: TextStyle(fontSize: 20)),
-                    contentPadding: const EdgeInsets.only(left: 30.00),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                    onTap: () {},
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    height: 20,
-                    thickness: 5,
-                  );
-                },
+              return LayoutBuilder(
+                builder: (context, constraints) =>
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    minWidth: constraints.maxWidth),
+                                child: DataTable(
+                                    columns: <DataColumn>[
+                                      DataColumn(
+                                          label: Text(
+                                            "ID",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18.00),
+                                          )),
+                                      DataColumn(
+                                          numeric: true,
+                                          label: Text(
+                                            "Fecha",
+
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18.00),
+                                          )),
+                                      DataColumn(
+                                          numeric: true,
+                                          label: Text(
+                                            "Tipo",
+
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18.00),
+                                          ))
+                                    ],
+                                    rows: paquetes.map((e) =>
+                                        DataRow(cells: <DataCell>[
+                                          DataCell(Text(e.id.toString(),
+                                            style: TextStyle(fontSize: 18.00),),
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetallesPaquete(
+                                                            paquete: e),
+                                                  ));
+                                            },),
+                                          DataCell(Text(e.fecha.toString(),
+                                            style: TextStyle(fontSize: 18.00),),
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetallesPaquete(
+                                                            paquete: e),
+                                                  ));
+                                            },),
+                                          DataCell(Text(e.calidad.toString(),
+                                            style: TextStyle(fontSize: 18.00),),
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetallesPaquete(
+                                                            paquete: e),
+                                                  ));
+                                            },)
+                                        ]))
+                                        .toList()),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
               );
             }
           },
@@ -62,10 +128,10 @@ class _PaquetesNoBajadosState extends State<PaquetesNoBajados> {
     var uri = Uri.parse(url);
     uri = uri.replace(query: 'barroteado=true');
     var response = await http.get(uri);
+    print(response.body);
     //Decode a JSON-encoded string into a Dart object with jsonDecode():
     //The Map object is a simple key/value pair. Keys and values in a map may be of any type.
     // A Map is a dynamic collection. In other words, Maps can grow and shrink at runtime.
-
     //De stringjson a json, de json a lista, de lista a map, de map a lista.
     paquetes = (jsonDecode(response.body) as List).map((i) =>
         Paquete.fromJson(i)).toList();

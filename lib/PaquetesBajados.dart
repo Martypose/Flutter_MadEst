@@ -110,6 +110,7 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
     uri = uri.replace(query: 'barroteado=false');
     var response = await http.get(uri);
 
+    print(response.body);
     //Decode a JSON-encoded string into a Dart object with jsonDecode():
     //The Map object is a simple key/value pair. Keys and values in a map may be of any type.
     // A Map is a dynamic collection. In other words, Maps can grow and shrink at runtime.
@@ -117,6 +118,7 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
     //De stringjson a json, de json a lista, de lista a map, de map a lista.
     paquetes = (jsonDecode(response.body) as List).map((i) =>
         Paquete.fromJson(i)).toList();
+
     return paquetes;
   }
 

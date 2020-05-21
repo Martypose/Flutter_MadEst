@@ -5,13 +5,14 @@ class Paquete{
 
   var id;
   int grosor;
+  String ancho;
   int largo;
   String fecha;
   int seco;
   String estado;
   int barroteado;
   int homogeneo;
-  double cubico;
+  var cubico;
   int numpiezas;
   String calidad;
   //Numero de piezas de cada numero, es un array;
@@ -22,6 +23,7 @@ class Paquete{
     var dt = DateTime.now();
     var newFormat = DateFormat("yyyy-MM-dd");
 
+    this.cantidades = [0];
     this.numpiezas = 0;
     this.cubico = 0.0;
     this.id = ID;
@@ -34,6 +36,11 @@ class Paquete{
     this.homogeneo = 0;
   }
 
+
+  setAncho(String ancho) {
+    this.ancho = ancho;
+  }
+
   setCantidades(List c){
     this.cantidades = c;
   }
@@ -41,8 +48,26 @@ class Paquete{
     this.cubico = d;
   }
 
+  setHomogeneo() {
+    this.homogeneo = 1;
+  }
+
+  setBarroteado() {
+    this.barroteado = 1;
+  }
+
+  setNumPiezas(int numpiezas) {
+    this.numpiezas = numpiezas;
+  }
+
+  setVerde() {
+    this.seco = 0;
+    this.barroteado = 1;
+  }
+
   Paquete.fromJson(Map<String, dynamic> json)
       : id = json['id'],
+        ancho = json['ancho'],
         grosor = json['grosor'],
         largo = json['largo'],
         cantidades = jsonDecode('[' + json['cantidades'] + ']'),
@@ -59,6 +84,7 @@ class Paquete{
   Map<String, dynamic> toJson() =>
       {
         'id': id,
+        'ancho': ancho,
         'grosor': grosor,
         'largo': largo,
         'cantidades': cantidades.join(','),

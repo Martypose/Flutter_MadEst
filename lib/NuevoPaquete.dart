@@ -1,6 +1,7 @@
-import 'MedicionPaquete.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'Paquete.dart';
+import 'package:http/http.dart' as http;
 
 //Screen donde introducimos los datos del paquete
 class NuevoPaquete extends StatefulWidget {
@@ -19,7 +20,7 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
   TextEditingController ControlAncho = TextEditingController();
   TextEditingController ControlNPiezas = TextEditingController();
 
-
+  var url = 'http://10.0.2.2:3000/paquetes';
   var calidad = 'Selecciona calidad';
   var punto = 'Selecciona el tipo';
 
@@ -27,9 +28,11 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Introduce datos'),backgroundColor: const Color(0xff37323e),
+          title: Text('Introduce datos'),
+          backgroundColor: const Color(0xff37323e),
         ),
-        body: SingleChildScrollView( scrollDirection: Axis.vertical, child: Container(child: Center(
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical, child: Container(child: Center(
           child: Column(
             children: <Widget>[
               Padding(
@@ -88,45 +91,49 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DropdownButton<String>(
-                    items: <String>['limpia', 'semilimpia', 'normal', 'mala'].map((String calidad) {
+                    items: <String>['limpia', 'semilimpia', 'normal', 'mala']
+                        .map((String calidad) {
                       return new DropdownMenuItem<String>(
                         value: calidad,
                         child: new Text(calidad),
                       );
                     }).toList(),
-                    hint:Text(calidad),
-                    onChanged:(String val){
-                      setState(() {calidad = val;});
+                    hint: Text(calidad),
+                    onChanged: (String val) {
+                      setState(() {
+                        calidad = val;
+                      });
                     }),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DropdownButton<String>(
-                    items: <String>['verde','bajado'].map((String punto) {
+                    items: <String>['verde', 'bajado'].map((String punto) {
                       return new DropdownMenuItem<String>(
                         value: punto,
                         child: new Text(punto),
                       );
                     }).toList(),
-                    hint:Text('Punto proceso'),
-                    onChanged:(String val){
-                      setState(() {punto = val;});
+                    hint: Text(punto),
+                    onChanged: (String val) {
+                      setState(() {
+                        punto = val;
+                      });
                     }),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: RaisedButton(
-                  child: Text('Guardar'),textColor: const Color(0xfffcfcfc),
+                  child: Text('Guardar'), textColor: const Color(0xfffcfcfc),
                   color: const Color(0xff37323e),
                   onPressed: () {
-                    if(calidad!='Selecciona calidad'){
-                      Paquete paquete = Paquete(ControlID.text,int.parse(ControlGrosor.text),int.parse(ControlLargo.text));
+                    if (calidad != 'Selecciona calidad' &&
+                        punto != 'Selecciona el tipo') {
+                      Paquete paquete = Paquete(ControlID.text, int.parse(
+                          ControlGrosor.text), int.parse(ControlLargo.text));
                       paquete.calidad = calidad;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MedicionPaquete(paquete: paquete),
-                          ));
+                      rellenarDatosPaquete(paquete);
+                      enviarPaquete(paquete);
                     }
                     // Navigate to the second screen using a named route.
                   },
@@ -135,8 +142,79 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
 
             ],
           ),
-        ),margin: const EdgeInsets.only(top: 20.0),
+        ), margin: const EdgeInsets.only(top: 20.0),
         ),)
+    );
+  }
+
+  rellenarDatosPaquete(Paquete paquete) {
+    //Comprobamos si el ancho es único o son varios, paquete homogeneo o heterogeneo
+
+    if (!ControlAncho.text.contains('-')) {
+      paquete.setHomogeneo();
+      paquete.setAncho(ControlAncho.text);
+      if (ControlNPiezas.text.length > 0) {
+        paquete.setNumPiezas(int.parse(ControlNPiezas.text));
+        var cubicoT = 0.0;
+        cubicoT = ((double.parse(paquete.ancho) / 100 * paquete.largo / 1000 *
+            paquete.grosor) / 1000) *
+            paquete.numpiezas;
+        paquete.setCubico(cubicoT);
+      } else {
+        paquete.setCubico(0.0);
+        print(paquete.cubico);
+      }
+    } else {
+      paquete.setCubico(0.0);
+      print(paquete.cubico);
+      paquete.setAncho(ControlAncho.text);
+    }
+
+    if (punto == 'verde') {
+      paquete.setVerde();
+    }
+  }
+
+
+  Future<void> enviarPaquete(Paquete paquete) async {
+    var response = await http.post(Uri.encodeFull(url),
+        body: json.encode({ 'paquete': paquete.toJson()}), headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+        });
+
+    print(response.body);
+
+    if (response.body == 'exito al guardar en bd') {
+      showAlertDialog(context);
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Paquete guardado"),
+      content: Text(
+          "Se ha guardado el paquete con éxito en la base de datos."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

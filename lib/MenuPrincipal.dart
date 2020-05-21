@@ -86,8 +86,24 @@ class MenuPrincipal extends StatelessWidget {
                             ));
                       },
                     ),
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: RaisedButton(
+                      child: Text('VER AVISOS', textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20)),
+                      textColor: const Color(0xffffffff),
+                      color: const Color(0xff37323e),
+                      onPressed: () {
+                        // Navigate to the second screen using a named route.
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NuevoPaquete(),
+                            ));
+                      },
+                    ),
                   )
-
                 ],
               ),
             ),
