@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madeirasestanqueiro/DatosPaqueteMedir.dart';
 import 'package:madeirasestanqueiro/NuevoPaquete.dart';
+import 'Avisos.dart';
 import 'PaquetesBajados.dart';
 import 'PaquetesNoBajados.dart';
 
@@ -99,7 +100,7 @@ class MenuPrincipal extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NuevoPaquete(),
+                              builder: (context) => Avisos(),
                             ));
                       },
                     ),

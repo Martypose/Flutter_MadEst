@@ -12,18 +12,6 @@ class DetallesPaquete extends StatefulWidget {
 
 class _DetallesPaqueteState extends State<DetallesPaquete> {
   @override
-  var barroteado,
-      seco,
-      homogeneo,
-      ancho,
-      stringPiezas = "";
-
-  void initState() {
-    interpretarDatos();
-  }
-  var url = 'http://10.0.2.2:3000/paquetes';
-
-  @override
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,38 +72,6 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
           ],
         )
     );
-  }
-
-
-  interpretarDatos() {
-    setState(() {
-      if (widget.paquete.barroteado == 0) {
-        barroteado = 'NO';
-      } else {
-        barroteado = 'SÍ';
-      }
-      if (widget.paquete.seco == 0) {
-        seco = 'VERDE';
-      } else {
-        seco = 'SECO';
-      }
-      if (widget.paquete.ancho == null) {
-        ancho = 'Diferentes';
-      } else {
-        ancho = widget.paquete.ancho;
-      }
-
-      if (widget.paquete.homogeneo == 0) {
-        var pieza = 8;
-        for (var cantidadpieza in widget.paquete.cantidades) {
-          if (cantidadpieza > 0)
-            stringPiezas = stringPiezas + ' ${pieza} : ${cantidadpieza} ';
-          pieza++;
-        }
-      } else {
-        stringPiezas = widget.paquete.numpiezas.toString();
-      }
-    });
   }
 
 

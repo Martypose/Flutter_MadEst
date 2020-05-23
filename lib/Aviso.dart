@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-class Paquete {
+class Aviso {
 
   int id;
   String nombre;
@@ -10,49 +10,47 @@ class Paquete {
   String especies;
   String observaciones;
   String fecha;
+  int vista;
 
 
   Aviso(int id, String nombre, String telefono, String localizacion,
+      String especies,
       String observaciones) {
     //Consuigo fecha actual
     var dt = DateTime.now();
     var newFormat = DateFormat("yyyy-MM-dd");
     this.id = id;
+    this.nombre = nombre;
     this.fecha = newFormat.format(dt);
     this.telefono = telefono;
     this.localizacion = localizacion;
     this.especies = especies;
-    this.observaciones = "stock";
+    this.observaciones = observaciones;
+    this.vista = 0;
   }
 
 
-  Paquete.fromJson(Map<String, dynamic> json)
+  Aviso.fromJson(Map<String, dynamic> json)
       : id = json['id'],
+        fecha = json['fecha'],
+        nombre = json['nombre'],
         telefono = json['telefono'],
-        localizacion = json['grosor'],
-        especies = json['largo'],
-        observaciones = jsonDecode('[' + json['cantidades'] + ']'),
-        especies = json['largo']
-
-  ,
-
-  ;
+        localizacion = json['localizacion'],
+        especies = json['especies'],
+        observaciones = json['observaciones'],
+        vista = json['vista'];
 
 
   Map<String, dynamic> toJson() =>
       {
         'id': id,
-        'ancho': ancho,
-        'grosor': grosor,
-        'largo': largo,
-        'cantidades': cantidades.join(','),
-        'seco': seco,
         'fecha': fecha,
-        'estado': estado,
-        'barroteado': barroteado,
-        'homogeneo': homogeneo,
-        'cubico': cubico,
-        'numpiezas': numpiezas,
-        'calidad': calidad
+        'nombre': nombre,
+        'telefono': telefono,
+        'localizacion': localizacion,
+        'especies': especies,
+        'observaciones': observaciones,
+        'vista': vista,
+
       };
 }
