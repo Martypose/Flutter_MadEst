@@ -53,28 +53,53 @@ class _DetallesAvisoState extends State<DetallesAviso> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-                alignment: Alignment.center,
-                height: 75.0,
-                width: double.infinity,
+            child: Material(
                 color: const Color(0xff37323e),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: RaisedButton(
-                        onPressed: () {
-                          _calling(widget.aviso.telefono.toString());
-                        },
-                        child: Text('LLamar cliente'),
+                      padding: const EdgeInsets.all(10.0),
+                      child: Ink(
+                        decoration: const ShapeDecoration(
+                          color: Colors.lightGreen, //E26561
+                          shape: CircleBorder(),
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.phone),
+                          color: Colors.white,
+                          onPressed: () {
+                            _calling(widget.aviso.telefono.toString());
+                          },
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: RaisedButton(
-                        onPressed: () {},
-                        child: Text('Borrar aviso'),
+                      padding: const EdgeInsets.all(10.0),
+                      child: Ink(
+                        decoration: const ShapeDecoration(
+                          color: const Color(0xffE26561),
+                          shape: CircleBorder(),
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.delete_forever),
+                          color: Colors.white,
+                          onPressed: () {},
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Ink(
+                        decoration: const ShapeDecoration(
+                          color: const Color(0xffE26561),
+                          shape: CircleBorder(),
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.remove_red_eye),
+                          color: Colors.white,
+                          onPressed: () {},
+                        ),
                       ),
                     )
                   ],
@@ -86,8 +111,8 @@ class _DetallesAvisoState extends State<DetallesAviso> {
   }
 
   _calling(String telefono) async {
-    if (await canLaunch(telefono)) {
-      await launch(telefono);
+    if (await canLaunch('tel:$telefono')) {
+      await launch('tel:$telefono');
     } else {
       throw 'No se ha podido llamar a $telefono';
     }
