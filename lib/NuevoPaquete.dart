@@ -183,7 +183,7 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
           "accept": "application/json",
         });
 
-    print(response.body);
+    print(paquete.toJson());
 
     if (response.body == 'exito al guardar en bd') {
       showAlertDialog(context);

@@ -4,6 +4,7 @@ import 'package:madeirasestanqueiro/NuevoPaquete.dart';
 import 'Avisos.dart';
 import 'PaquetesBajados.dart';
 import 'PaquetesNoBajados.dart';
+import 'FiltrarPaquetes.dart';
 
 class MenuPrincipal extends StatelessWidget {
   const MenuPrincipal({ Key key }) : super(key: key);
@@ -101,6 +102,24 @@ class MenuPrincipal extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => Avisos(),
+                            ));
+                      },
+                    ),
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: RaisedButton(
+                      child: Text(
+                          'BUSCAR PAQUETES', textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20)),
+                      textColor: const Color(0xffffffff),
+                      color: const Color(0xff37323e),
+                      onPressed: () {
+                        // Navigate to the second screen using a named route.
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FiltrarPaquetes(),
                             ));
                       },
                     ),
