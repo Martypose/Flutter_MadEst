@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'Paquete.dart';
+import 'package:http/http.dart' as http;
+
 
 class DetallesPaquete extends StatefulWidget {
   final Paquete paquete;
@@ -12,13 +16,12 @@ class DetallesPaquete extends StatefulWidget {
 
 class _DetallesPaqueteState extends State<DetallesPaquete> {
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Datos paquete: ${widget.paquete.id}'),
-        backgroundColor: const Color(0xff37323e),
-      ),
+        appBar: AppBar(
+          title: Text('Datos paquete: ${widget.paquete.id}'),
+          backgroundColor: const Color(0xff37323e),
+        ),
         body: Column(
           children: <Widget>[
             Table(
@@ -87,7 +90,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
                               icon: Icon(Icons.euro_symbol),
                               color: Colors.white,
                               onPressed: () {
-                                //_calling(widget.aviso.telefono.toString());
+                                showAlertDialog(context, 'vender');
                               },
                             ),
                           ),
@@ -105,8 +108,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
                               icon: Icon(Icons.arrow_downward),
                               color: Colors.white,
                               onPressed: () {
-                                // showAlertDialog(context, 'delete');
-                                // borrarAviso(widget.aviso);
+                                showAlertDialog(context, 'bajar');
                               },
                             ),
                           ),
@@ -120,8 +122,98 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
     );
   }
 
+  Future<void> actualizarPaquete(Paquete paquete) async {
+    var url = 'http://10.0.2.2:3000/compras/paquetes/${paquete.id}';
+    var response = await http.put(Uri.encodeFull(url),
+        body: json.encode({ 'paquete': paquete.toJson()}),
+        headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+        });
+    print(response.body);
+    if (response.body == 'Actualizado con éxito.') {
+      Navigator.pop(context);
+      showAlertDialog(context, '200');
+    } else {
+      Navigator.pop(context);
+      showAlertDialog(context, 'Error');
+    }
+  }
+
+  showAlertDialog(BuildContext context, String orden) {
+    String mensaje;
+
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        switch (orden) {
+          case 'vender':
+            widget.paquete.estado = 'vendido';
+            actualizarPaquete(widget.paquete);
+            break;
+          case 'bajar' :
+            widget.paquete.estado = 'bajado';
+            actualizarPaquete(widget.paquete);
+            break;
+          case '200' :
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            break;
+          case 'Error' :
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            break;
+          default:
+            break;
+        }
+      },
+    );
+    Widget noButton = FlatButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    List<Widget> options;
+
+    switch (orden) {
+      case 'vender':
+        options = [okButton, noButton];
+        mensaje = "Seguro que quieres marcar como vendido el paquete?";
+        break;
+      case 'bajar':
+        options = [okButton, noButton];
+        mensaje = "Seguro que quieres marcar como bajado el paquete?";
+        break;
+      case '200' :
+        options = [okButton];
+        mensaje = 'Operación completada con éxito';
+        break;
+      case 'Error' :
+        options = [okButton];
+        mensaje = 'No se ha podido completar la operación';
+        break;
+      default:
+        break;
+    }
 
 
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Atención"),
+      content: Text(mensaje
+      ),
+      actions: options,
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
 
 }
