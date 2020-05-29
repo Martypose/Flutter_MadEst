@@ -186,24 +186,58 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
     print(paquete.toJson());
 
     if (response.body == 'exito al guardar en bd') {
-      showAlertDialog(context);
+      showAlertDialog(context, response.body);
+    } else if (response.body == 'id repetido') {
+      showAlertDialog(context, response.body);
+    } else if (response.body == 'error insert') {
+      showAlertDialog(context, response.body);
     }
   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context, String respuesta) {
+    String mensaje;
+
+    switch (respuesta) {
+      case 'exito al guardar en bd':
+        mensaje = 'Paquete guardado con éxito';
+        break;
+      case 'id repetido':
+        mensaje = 'ID repetido, introduce otro nuevo';
+        break;
+      case 'error insert':
+        mensaje = 'Error en el insert';
+        break;
+    }
+
+
+
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        switch (respuesta) {
+          case 'exito al guardar en bd':
+            mensaje = 'Paquete guardado con éxito';
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            break;
+          case 'id repetido':
+            mensaje = 'Paquete guardado con éxito';
+            Navigator.pop(context);
+
+            break;
+          case 'error insert':
+            Navigator.pop(context);
+            break;
+        }
+
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Paquete guardado"),
+      title: Text("Atención"),
       content: Text(
-          "Se ha guardado el paquete con éxito en la base de datos."),
+          mensaje),
       actions: [
         okButton,
       ],

@@ -197,8 +197,10 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
                                 setState(() {
                                   fecha = date;
                                   if (date != null)
-                                    fechaformateada =
-                                        DateFormat('yyyy-MM-dd').format(fecha);
+                                    fechaformateada = DateFormat('yyyy-MM-dd')
+                                        .format(fecha);
+                                  else
+                                    fechaformateada = 'Fecha sin seleccionar';
                                 });
                               });
                             },

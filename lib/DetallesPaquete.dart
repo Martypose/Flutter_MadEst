@@ -123,7 +123,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
   }
 
   Future<void> actualizarPaquete(Paquete paquete) async {
-    var url = 'http://10.0.2.2:3000/compras/paquetes/${paquete.id}';
+    var url = 'http://10.0.2.2:3000/paquetes/${paquete.id}';
     var response = await http.put(Uri.encodeFull(url),
         body: json.encode({ 'paquete': paquete.toJson()}),
         headers: {

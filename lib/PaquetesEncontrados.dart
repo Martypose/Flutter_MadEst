@@ -17,7 +17,7 @@ class _PaquetesEncontradosState extends State<PaquetesEncontrados> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Paquetes bajados"),
+          title: Text("${widget.paquetes.length} resultados"),
           backgroundColor: const Color(0xff37323e),
         ),
         body: LayoutBuilder(
