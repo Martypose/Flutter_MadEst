@@ -18,7 +18,7 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Paquetes bajados"),
+          title: Text("Paquetes macizos"),
           backgroundColor: const Color(0xff37323e),
         ),
         body: FutureBuilder(

@@ -47,7 +47,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
             ), SizedBox(height: 20),
             if(widget.paquete.cantidades.length > 1)
               Text('PIEZAS: '),
-            Flexible(
+            Expanded(
               child: SingleChildScrollView(child: Table(
                   border: TableBorder.all(),
                   children: [
@@ -68,7 +68,53 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
                         ]),
                   ]
               ),),
-            )
+            ), Align(
+              alignment: Alignment.bottomCenter,
+              child: Material(
+                  color: const Color(0xff37323e),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      if(widget.paquete.estado == 'stock')
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Ink(
+                            decoration: const ShapeDecoration(
+                              color: Colors.lightGreen, //E26561
+                              shape: CircleBorder(),
+                            ),
+                            child: IconButton(
+                              icon: Icon(Icons.euro_symbol),
+                              color: Colors.white,
+                              onPressed: () {
+                                //_calling(widget.aviso.telefono.toString());
+                              },
+                            ),
+                          ),
+                        ),
+                      if(widget.paquete.estado == 'stock' &&
+                          widget.paquete.barroteado == 1)
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Ink(
+                            decoration: const ShapeDecoration(
+                              color: const Color(0xffE26561),
+                              shape: CircleBorder(),
+                            ),
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_downward),
+                              color: Colors.white,
+                              onPressed: () {
+                                // showAlertDialog(context, 'delete');
+                                // borrarAviso(widget.aviso);
+                              },
+                            ),
+                          ),
+                        ),
+
+                    ],
+                  )),
+            ),
           ],
         )
     );

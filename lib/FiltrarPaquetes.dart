@@ -30,7 +30,9 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
   double sliderSeco = 0.0;
   double sliderBarroteado = 0.0;
   double sliderStock = 0.0;
-  String labelSeco, labelBarroteado, labelStock;
+  String labelSeco = 'Sin filtro',
+      labelBarroteado = 'Sin filtro',
+      labelStock = 'Sin filtro';
   bool stock = false;
 
   @override

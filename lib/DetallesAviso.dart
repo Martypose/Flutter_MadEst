@@ -103,7 +103,8 @@ class _DetallesAvisoState extends State<DetallesAviso> {
                           icon: Icon(Icons.delete_forever),
                           color: Colors.white,
                           onPressed: () {
-                            borrarAviso(widget.aviso);
+                            showAlertDialog(context, 'delete');
+                            // borrarAviso(widget.aviso);
                           },
                         ),
                       ),
@@ -119,7 +120,8 @@ class _DetallesAvisoState extends State<DetallesAviso> {
                           icon: Icon(Icons.remove_red_eye),
                           color: Colors.white,
                           onPressed: () {
-                            avisoVisto(widget.aviso);
+                            //avisoVisto(widget.aviso);
+                            showAlertDialog(context, 'put');
                           },
                         ),
                       ),
@@ -162,7 +164,11 @@ class _DetallesAvisoState extends State<DetallesAviso> {
     print(response.body);
 
     if (response.body == 'Actualizado con éxito.') {
-      showAlertDialog(context, 'put');
+      Navigator.pop(context);
+      showAlertDialog(context, '200');
+    } else {
+      Navigator.pop(context);
+      showAlertDialog(context, 'Error');
     }
   }
 
@@ -177,7 +183,11 @@ class _DetallesAvisoState extends State<DetallesAviso> {
     print(response.body);
 
     if (response.body == 'borrado con éxito.') {
-      showAlertDialog(context, 'delete');
+      Navigator.pop(context);
+      showAlertDialog(context, '200');
+    } else {
+      Navigator.pop(context);
+      showAlertDialog(context, 'Error');
     }
   }
 
@@ -185,33 +195,65 @@ class _DetallesAvisoState extends State<DetallesAviso> {
   showAlertDialog(BuildContext context, String orden) {
     String mensaje;
 
-    switch (orden) {
-      case 'delete':
-        mensaje = "Se ha borrado el aviso de la BD";
-        break;
-
-      case 'put':
-        mensaje = "Se ha marcado el aviso como visto, ya no lo verás aquí";
-        break;
-      default:
-        break;
-    }
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        switch (orden) {
+          case 'delete':
+            borrarAviso(widget.aviso);
+            break;
+          case 'put' :
+            avisoVisto(widget.aviso);
+            break;
+          case '200' :
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            break;
+          case 'Error' :
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            break;
+          default:
+            break;
+        }
       },
     );
+    Widget noButton = FlatButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    List<Widget> options;
+
+    switch (orden) {
+      case 'delete':
+        options = [okButton, noButton];
+        mensaje = "Seguro que quieres borrar el aviso?";
+        break;
+      case 'put':
+        options = [okButton, noButton];
+        mensaje = "Seguro que quieres marcar como visto el aviso?";
+        break;
+      case '200' :
+        options = [okButton];
+        mensaje = 'Operación completada con éxito';
+        break;
+      case 'Error' :
+        options = [okButton];
+        mensaje = 'No se ha podido completar la operación';
+        break;
+      default:
+        break;
+    }
+
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Atención"),
       content: Text(mensaje
       ),
-      actions: [
-        okButton,
-      ],
+      actions: options,
     );
 
     // show the dialog
