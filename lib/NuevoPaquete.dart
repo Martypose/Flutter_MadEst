@@ -181,6 +181,7 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
         body: json.encode({ 'paquete': paquete.toJson()}), headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          "authorization": "Martin",
         });
 
     print(paquete.toJson());

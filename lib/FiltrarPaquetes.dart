@@ -5,7 +5,7 @@ import 'Paquete.dart';
 import 'package:http/http.dart' as http;
 import 'PaquetesEncontrados.dart';
 
-//Screen donde introducimos los datos del paquete
+//Screen donde introducimos filtros para buscar paquetes
 class FiltrarPaquetes extends StatefulWidget {
   @override
   _FiltrarPaquetesState createState() {
@@ -16,7 +16,7 @@ class FiltrarPaquetes extends StatefulWidget {
 class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
   List paquetes;
 
-  // this allows us to access the TextField text
+  // Los controladores permiten acceder a los valores introducidos en los TextField
   TextEditingController ControlID = TextEditingController();
   TextEditingController ControlGrosor = TextEditingController();
   TextEditingController ControlLargo = TextEditingController();
@@ -30,9 +30,9 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
   double sliderSeco = 0.0;
   double sliderBarroteado = 0.0;
   double sliderStock = 0.0;
-  String labelSeco = 'Sin filtro',
-      labelBarroteado = 'Sin filtro',
-      labelStock = 'Sin filtro';
+  String labelSeco = 'Sin filtro';
+  String labelBarroteado = 'Sin filtro';
+  String labelStock = 'Sin filtro';
   bool stock = false;
 
   @override
@@ -228,6 +228,7 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
         ));
   }
 
+  //Según los valores que van cambiando en los sliders, cambiamos también las etiquestas a mostrar para cada uno
   void ajustarValoresSiders() {
     if (sliderSeco < 0.5) {
       labelSeco = 'Sin filtro';
@@ -256,18 +257,26 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
     }
   }
 
+
+  //Enviar la sentencia a nuestra API y BD, forma parte de un objeto json con clave consulta
   Future<void> enviarConsulta() async {
+
     var response = await http.post(Uri.encodeFull(url),
         body: json.encode({'consulta': obtenerCondicionesSLQ()}),
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          "authorization": "Martin",
         });
     print(obtenerCondicionesSLQ());
 
+    //Obtenemos los paquetes mediante la respuesta de la request.
+    //Decodificamos y creamos objeto paquete por cada uno y los vamos añadiendo al array de paquetes
     paquetes = (jsonDecode(response.body) as List)
         .map((i) => Paquete.fromJson(i))
         .toList();
+
+    //Si obtenemos algun paquete, cambiamos de pantalla y enviamos el array con los paquetes
     if (paquetes != null && paquetes.length > 0) {
       Navigator.push(
           context,
@@ -277,33 +286,8 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
     }
   }
 
-  showAlertDialog(BuildContext context) {
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      },
-    );
 
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Paquete guardado"),
-      content: Text("Se ha guardado el paquete con éxito en la base de datos."),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
+  //Método que va editando la consulta a enviar a la API según cambiamos el estado y valores en la screen
   String obtenerCondicionesSLQ() {
     String consulta = 'SELECT * FROM paquete WHERE';
 
@@ -372,8 +356,6 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
       consulta =
           consulta.replaceRange(consulta.length - 4, consulta.length, ";");
     }
-
-    //Convertir string en json
 
     return consulta;
   }

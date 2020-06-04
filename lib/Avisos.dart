@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:madeirasestanqueiro/Aviso.dart';
 import 'DetallesAviso.dart';
-import 'Paquete.dart';
-import 'DetallesPaquete.dart';
 
 class Avisos extends StatefulWidget {
   @override
@@ -14,8 +12,8 @@ class Avisos extends StatefulWidget {
 }
 
 class _AvisosState extends State<Avisos> {
-  List avisos;
 
+  List avisos;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,18 +130,18 @@ class _AvisosState extends State<Avisos> {
     var url = 'http://10.0.2.2:3000/compras/avisos';
     var uri = Uri.parse(url);
     uri = uri.replace(query: 'vista=0');
-    var response = await http.get(uri);
+    var response = await http.get(uri, headers: {
+      "authorization": "Martin",
+    });
 
     print(response.body);
     //Decode a JSON-encoded string into a Dart object with jsonDecode():
     //The Map object is a simple key/value pair. Keys and values in a map may be of any type.
     // A Map is a dynamic collection. In other words, Maps can grow and shrink at runtime.
-
     //De stringjson a json, de json a lista, de lista a map, de map a lista.
     avisos = (jsonDecode(response.body) as List)
         .map((i) => Aviso.fromJson(i))
         .toList();
-
     return avisos;
   }
 }

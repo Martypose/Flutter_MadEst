@@ -9,6 +9,8 @@ class DetallesAviso extends StatefulWidget {
 
   DetallesAviso({Key key, @required this.aviso}) : super(key: key);
 
+  //En widget.aviso tenemos el objeto aviso en cuestion, podemos acceder a cualquier de sus propiedades
+
   @override
   _DetallesAvisoState createState() => _DetallesAvisoState();
 }
@@ -71,7 +73,7 @@ class _DetallesAvisoState extends State<DetallesAviso> {
                           icon: Icon(Icons.phone),
                           color: Colors.white,
                           onPressed: () {
-                            _calling(widget.aviso.telefono.toString());
+                            _llamar(widget.aviso.telefono.toString());
                           },
                         ),
                       ),
@@ -87,7 +89,7 @@ class _DetallesAvisoState extends State<DetallesAviso> {
                           icon: Icon(Icons.share),
                           color: Colors.white,
                           onPressed: () {
-                            _launchWhatsApp(widget.aviso.telefono.toString());
+                            _lanzarWhatsApp();
                           },
                         ),
                       ),
@@ -134,7 +136,8 @@ class _DetallesAvisoState extends State<DetallesAviso> {
     );
   }
 
-  _calling(String telefono) async {
+  //Método que lanza la aplicación para llamar de nuestro SO con el número por argumento
+  _llamar(String telefono) async {
     if (await canLaunch('tel:$telefono')) {
       await launch('tel:$telefono');
     } else {
@@ -142,7 +145,8 @@ class _DetallesAvisoState extends State<DetallesAviso> {
     }
   }
 
-  _launchWhatsApp(String telefono) async {
+//Método que lanza la aplicación whatsapp, nos deja seleccionar un contacto para compartir y adjuntamos mensaje con los datos del aviso
+  _lanzarWhatsApp() async {
     String message = '${widget.aviso.toJson().toString()}';
     var whatsappUrl = "whatsapp://send?text=$message";
     if (await canLaunch(whatsappUrl)) {
@@ -152,16 +156,19 @@ class _DetallesAvisoState extends State<DetallesAviso> {
     }
   }
 
-
+//Request tipo PUT para actualizar el aviso por argumento en la BD
   Future<void> avisoVisto(Aviso aviso) async {
     var url = 'http://10.0.2.2:3000/compras/avisos/${aviso.id}';
     var response = await http.put(Uri.encodeFull(url),
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          "authorization": "Martin",
         });
 
     print(response.body);
+
+    //Según respuesta, informamos y volvemos atras
 
     if (response.body == 'Actualizado con éxito.') {
       Navigator.pop(context);
@@ -172,15 +179,19 @@ class _DetallesAvisoState extends State<DetallesAviso> {
     }
   }
 
+  //Request tipo DELETE para actualizar el aviso por argumento en la BD
   Future<void> borrarAviso(Aviso aviso) async {
     var url = 'http://10.0.2.2:3000/compras/avisos/${aviso.id}';
     var response = await http.delete(Uri.encodeFull(url),
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          "authorization": "Martin",
         });
 
     print(response.body);
+
+    //Según respuesta, informamos y volvemos atras
 
     if (response.body == 'borrado con éxito.') {
       Navigator.pop(context);
@@ -192,6 +203,8 @@ class _DetallesAvisoState extends State<DetallesAviso> {
   }
 
 
+  //Método para enseñar dialogo con usuario con la orden por argumento
+  //Entiendase orde como tipo de notificación
   showAlertDialog(BuildContext context, String orden) {
     String mensaje;
 
@@ -246,8 +259,6 @@ class _DetallesAvisoState extends State<DetallesAviso> {
       default:
         break;
     }
-
-
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Atención"),

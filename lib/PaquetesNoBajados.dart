@@ -127,7 +127,9 @@ class _PaquetesNoBajadosState extends State<PaquetesNoBajados> {
     var url = 'http://10.0.2.2:3000/paquetes';
     var uri = Uri.parse(url);
     uri = uri.replace(query: 'barroteado=true');
-    var response = await http.get(uri);
+    var response = await http.get(uri, headers: {
+      "authorization": "Martin",
+    });
     print(response.body);
     //Decode a JSON-encoded string into a Dart object with jsonDecode():
     //The Map object is a simple key/value pair. Keys and values in a map may be of any type.

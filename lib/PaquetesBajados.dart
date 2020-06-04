@@ -108,7 +108,9 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
     var url = 'http://10.0.2.2:3000/paquetes';
     var uri = Uri.parse(url);
     uri = uri.replace(query: 'barroteado=false');
-    var response = await http.get(uri);
+    var response = await http.get(uri, headers: {
+      "authorization": "Martin",
+    });
 
     print(response.body);
     //Decode a JSON-encoded string into a Dart object with jsonDecode():

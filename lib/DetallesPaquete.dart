@@ -129,6 +129,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          "authorization": "Martin",
         });
     print(response.body);
     if (response.body == 'Actualizado con éxito.') {
