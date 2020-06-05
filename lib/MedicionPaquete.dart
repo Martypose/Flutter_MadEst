@@ -15,20 +15,30 @@ class MedicionPaquete extends StatefulWidget {
 
 
 class _MedicionPaqueteState extends State<MedicionPaquete>{
+
   @override
+
+  //Guardamos la útlima pieza introducida
   var ultimapieza;
+  //Los últimos números introducidos para mostrar al usuario
   var ultimos = [];
+  //Guardo el valor de cada pieza introducida
   var todos = [];
+  //Los números posible a introducir
   var numeros = [];
+  //Para cada número posible, que cantidad hay de piezas(cuantas veces de ha introducido)
   var cantidad = [];
   var url = 'http://10.0.2.2:3000/paquetes';
 
   void initState() {
     super.initState();
+
+    //Nada más creada la screen, rellenamos los números y ponemos a 0 todas las cantidades
     for (var i = 8; i <= 50; i++) {
       numeros.add(i);
       cantidad.add(0);
     }
+
     ultimapieza = 0;
   }
 
@@ -44,6 +54,8 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
         children: <Widget>[
           Align(
             alignment: Alignment.topCenter,
+
+            //Contenedor donde enseño los últimos números añadidos
             child: Container(
               alignment: Alignment.center,
               height: 50.0,
@@ -67,9 +79,12 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
                 mainAxisSpacing: 10.0,
                 crossAxisSpacing: 10.0,
                 children: <Widget>[
+                  //Para cada número creamos un boton con el número como texto
                   for (var numero in numeros)
                     RaisedButton(
                       onPressed: () {
+
+                        //Al hacer tap actualizamos cantidades, ultimapieza y todos.
                         setState(() {
                           //print(widget.paquete.ID);
                           ultimapieza = numero;
@@ -98,6 +113,8 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
                 height: 75.0,
                 width: double.infinity,
                 color: const Color(0xff37323e),
+
+                //Creo una fila donde pongo dos botones para borrar última pieza y guardar el paquete
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -166,6 +183,7 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
     });
   }
 
+  // Método que llamo cuando guardo paquete, hago un POST a mi API REST enviando el objeto paquete que tenemos en JSON
   Future<void> enviarPaquete() async{
 
     var response = await http.post(Uri.encodeFull(url), body: json.encode({ 'paquete': widget.paquete.toJson() }), headers: {
@@ -181,13 +199,14 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
 
   }
 
+  //Método que ejecuto antes de enviar el POST para actualizar los datos del paquete según lo que hemos hecho
   calcularDatosPaquete() {
+
     var cubicoT=0.0;
     var cubicoP=0.0;
-
     //Guardar en el objeto el número de piezas y el cúbico para guardarlo en nuestra BD
     //El numero de piezas es la longitud del array donde guardamos todas las piezas
-    widget.paquete.numpiezas=todos.length;
+    widget.paquete.numpiezas = todos.length;
 
     //Para calcular el cúbico hacemos una suma del cúbico de cada pieza, recorriendo el array todos,pasando a metros
     for(var i=0; i<todos.length; i++){
