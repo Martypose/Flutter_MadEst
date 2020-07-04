@@ -127,7 +127,7 @@ class _AvisosState extends State<Avisos> {
   }
 
   Future<List<Aviso>> recibirAvisos() async {
-    var url = 'http://10.0.2.2:3000/compras/avisos';
+    var url = 'http://www.maderaexteriores.com/compras/avisos';
     var uri = Uri.parse(url);
     uri = uri.replace(query: 'vista=0');
     var response = await http.get(uri, headers: {
