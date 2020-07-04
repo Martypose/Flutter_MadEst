@@ -28,7 +28,7 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
   var numeros = [];
   //Para cada número posible, que cantidad hay de piezas(cuantas veces de ha introducido)
   var cantidad = [];
-  var url = 'http://10.0.2.2:3000/paquetes';
+  var url = 'http://www.maderaexteriores.com/paquetes';
 
   void initState() {
     super.initState();
@@ -189,6 +189,7 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
     var response = await http.post(Uri.encodeFull(url), body: json.encode({ 'paquete': widget.paquete.toJson() }), headers: {
       "content-type" : "application/json",
       "accept" : "application/json",
+      "authorization": "Martin",
     });
 
     print(response.body);

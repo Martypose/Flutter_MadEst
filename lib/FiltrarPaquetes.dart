@@ -24,7 +24,7 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
 
   DateTime fecha;
   String fechaformateada;
-  var url = 'http://10.0.2.2:3000/paquetes/buscarPaquetes';
+  var url = 'http://www.maderaexteriores.com/paquetes/buscarPaquetes';
   var calidad = 'Selecciona calidad';
   bool barroteado = false;
   double sliderSeco = 0.0;

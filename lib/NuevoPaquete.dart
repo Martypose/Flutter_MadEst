@@ -20,7 +20,7 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
   TextEditingController ControlAncho = TextEditingController();
   TextEditingController ControlNPiezas = TextEditingController();
 
-  var url = 'http://10.0.2.2:3000/paquetes';
+  var url = 'http://www.maderaexteriores.com/paquetes';
   var calidad = 'Selecciona calidad';
   var punto = 'Selecciona el tipo';
 
@@ -210,8 +210,6 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
         break;
     }
 
-
-
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
@@ -224,7 +222,6 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
           case 'id repetido':
             mensaje = 'Paquete guardado con éxito';
             Navigator.pop(context);
-
             break;
           case 'error insert':
             Navigator.pop(context);

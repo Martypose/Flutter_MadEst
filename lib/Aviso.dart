@@ -16,7 +16,7 @@ class Aviso {
   Aviso(int id, String nombre, String telefono, String localizacion,
       String especies,
       String observaciones) {
-    //Consuigo fecha actual
+    //Consigo fecha actual
     var dt = DateTime.now();
     var newFormat = DateFormat("yyyy-MM-dd");
     this.id = id;

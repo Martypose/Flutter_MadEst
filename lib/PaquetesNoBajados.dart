@@ -124,7 +124,7 @@ class _PaquetesNoBajadosState extends State<PaquetesNoBajados> {
 
 
   Future<List<Paquete>> recibirPaquetes() async {
-    var url = 'http://10.0.2.2:3000/paquetes';
+    var url = 'http://www.maderaexteriores.com/paquetes';
     var uri = Uri.parse(url);
     uri = uri.replace(query: 'barroteado=true');
     var response = await http.get(uri, headers: {
