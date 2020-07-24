@@ -14,7 +14,6 @@ class NuevoPaquete extends StatefulWidget {
 class _NuevoPaqueteState extends State<NuevoPaquete> {
 
   // this allows us to access the TextField text
-  TextEditingController ControlID = TextEditingController();
   TextEditingController ControlGrosor = TextEditingController();
   TextEditingController ControlLargo = TextEditingController();
   TextEditingController ControlAncho = TextEditingController();
@@ -35,16 +34,6 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
           scrollDirection: Axis.vertical, child: Container(child: Center(
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: ControlID,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'ID Paquete',
-                  ),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -129,7 +118,7 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
                   onPressed: () {
                     if (calidad != 'Selecciona calidad' &&
                         punto != 'Selecciona el tipo') {
-                      Paquete paquete = Paquete(ControlID.text, int.parse(
+                      Paquete paquete = Paquete(int.parse(
                           ControlGrosor.text), int.parse(ControlLargo.text));
                       paquete.calidad = calidad;
                       rellenarDatosPaquete(paquete);

@@ -60,7 +60,7 @@ class _PaquetesEncontradosState extends State<PaquetesEncontrados> {
                               .map((e) => DataRow(cells: <DataCell>[
                                     DataCell(
                                       Text(
-                                        e.id.toString(),
+                                        e.ID.toString(),
                                         style: TextStyle(fontSize: 18.00),
                                       ),
                                       onTap: () {

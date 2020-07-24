@@ -13,7 +13,6 @@ class DatosPaqueteMedir extends StatefulWidget {
 class _DatosPaqueteMedirState extends State<DatosPaqueteMedir> {
 
   // this allows us to access the TextField text
-  TextEditingController ControlID = TextEditingController();
   TextEditingController ControlGrosor = TextEditingController();
   TextEditingController ControlLargo = TextEditingController();
   var calidad = 'Selecciona calidad';
@@ -27,16 +26,6 @@ class _DatosPaqueteMedirState extends State<DatosPaqueteMedir> {
         body: SingleChildScrollView(scrollDirection: Axis.vertical, child:Container(child: Center(
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: ControlID,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'ID Paquete',
-                  ),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -80,7 +69,7 @@ class _DatosPaqueteMedirState extends State<DatosPaqueteMedir> {
                   color: const Color(0xff37323e),
                   onPressed: () {
                     if(calidad!='Selecciona calidad'){
-                      Paquete paquete = Paquete(ControlID.text,int.parse(ControlGrosor.text),int.parse(ControlLargo.text));
+                      Paquete paquete = Paquete(int.parse(ControlGrosor.text),int.parse(ControlLargo.text));
                               paquete.calidad = calidad;
                       Navigator.push(
                           context,

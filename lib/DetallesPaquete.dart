@@ -19,7 +19,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Datos paquete: ${widget.paquete.id}'),
+          title: Text('Datos paquete: ${widget.paquete.ID}'),
           backgroundColor: const Color(0xff37323e),
         ),
         body: Column(
@@ -123,7 +123,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
   }
 
   Future<void> actualizarPaquete(Paquete paquete) async {
-    var url = 'http://www.maderaexteriores.com/paquetes/${paquete.id}';
+    var url = 'http://www.maderaexteriores.com/paquetes/${paquete.ID}';
     var response = await http.put(Uri.encodeFull(url),
         body: json.encode({ 'paquete': paquete.toJson()}),
         headers: {

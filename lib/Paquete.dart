@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 class Paquete{
 
-  var id;
+  var ID;
   int grosor;
   String ancho;
   int largo;
@@ -18,7 +18,7 @@ class Paquete{
   //Numero de piezas de cada numero, es un array;
   List cantidades;
 
-  Paquete(String ID, int Grosor, int Largo){
+  Paquete(int Grosor, int Largo){
     //Consuigo fecha actual
     var dt = DateTime.now();
     var newFormat = DateFormat("yyyy-MM-dd");
@@ -26,7 +26,6 @@ class Paquete{
     this.cantidades = [0];
     this.numpiezas = 0;
     this.cubico = 0.0;
-    this.id = ID;
     this.fecha = newFormat.format(dt);
     this.grosor = Grosor;
     this.largo = Largo;
@@ -66,7 +65,7 @@ class Paquete{
   }
 
   Paquete.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
+      : ID = json['ID'],
         ancho = json['ancho'],
         grosor = json['grosor'],
         largo = json['largo'],
@@ -83,7 +82,7 @@ class Paquete{
 
   Map<String, dynamic> toJson() =>
       {
-        'id': id,
+        'ID': ID,
         'ancho': ancho,
         'grosor': grosor,
         'largo': largo,

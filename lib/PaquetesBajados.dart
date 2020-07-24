@@ -64,7 +64,7 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
                                       ))
                                 ],
                                 rows: paquetes.map((e) => DataRow(cells: <DataCell>[
-                                  DataCell(Text(e.id.toString(),style: TextStyle(fontSize: 18.00),),onTap: () {
+                                  DataCell(Text(e.ID.toString(),style: TextStyle(fontSize: 18.00),),onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -106,7 +106,7 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
   Future<List<Paquete>> recibirPaquetes() async {
     var url = 'http://www.maderaexteriores.com/paquetes';
     var uri = Uri.parse(url);
-    uri = uri.replace(query: 'barroteado=false');
+    uri = uri.replace(query: 'barroteado=0');
     var response = await http.get(uri, headers: {
       "authorization": "Martin",
     });

@@ -181,7 +181,7 @@ class _DetallesAvisoState extends State<DetallesAviso> {
 
   //Request tipo DELETE para actualizar el aviso por argumento en la BD
   Future<void> borrarAviso(Aviso aviso) async {
-    var url = 'http://192.168.1.46:3000/compras/avisos/${aviso.id}';
+    var url = 'http://www.maderaexteriores.com/compras/avisos/${aviso.id}';
     var response = await http.delete(Uri.encodeFull(url),
         headers: {
           "content-type": "application/json",
