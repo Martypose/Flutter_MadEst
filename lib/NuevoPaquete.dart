@@ -118,10 +118,8 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
                   onPressed: () {
                     if (calidad != 'Selecciona calidad' &&
                         punto != 'Selecciona el tipo') {
-                      Paquete paquete = Paquete(int.parse(
-                          ControlGrosor.text), int.parse(ControlLargo.text));
-                      paquete.calidad = calidad;
-                      rellenarDatosPaquete(paquete);
+                      Paquete paquete = Paquete(null);
+                      paquete.medida.calidad = calidad;
                       enviarPaquete(paquete);
                     }
                     // Navigate to the second screen using a named route.
@@ -136,33 +134,7 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
     );
   }
 
-  rellenarDatosPaquete(Paquete paquete) {
-    //Comprobamos si el ancho es único o son varios, paquete homogeneo o heterogeneo
 
-    if (!ControlAncho.text.contains('-')) {
-      paquete.setHomogeneo();
-      paquete.setAncho(ControlAncho.text);
-      if (ControlNPiezas.text.length > 0) {
-        paquete.setNumPiezas(int.parse(ControlNPiezas.text));
-        var cubicoT = 0.0;
-        cubicoT = ((double.parse(paquete.ancho) / 100 * paquete.largo / 1000 *
-            paquete.grosor) / 1000) *
-            paquete.numpiezas;
-        paquete.setCubico(cubicoT);
-      } else {
-        paquete.setCubico(0.0);
-        print(paquete.cubico);
-      }
-    } else {
-      paquete.setCubico(0.0);
-      print(paquete.cubico);
-      paquete.setAncho(ControlAncho.text);
-    }
-
-    if (punto == 'verde') {
-      paquete.setVerde();
-    }
-  }
 
 
   Future<void> enviarPaquete(Paquete paquete) async {

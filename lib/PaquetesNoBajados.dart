@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'Paquete.dart';
-import 'DetallesPaquete.dart';
+import 'Medida.dart';
+
 
 class PaquetesNoBajados extends StatefulWidget {
   @override
@@ -12,17 +12,18 @@ class PaquetesNoBajados extends StatefulWidget {
 }
 
 class _PaquetesNoBajadosState extends State<PaquetesNoBajados> {
-  List paquetes;
+  List medidas;
+  String medida = 'Nada seleccionado';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Paquetes barroteados"),
+          title: Text("Paquetes macizos"),
           backgroundColor: const Color(0xff37323e),
         ),
         body: FutureBuilder(
-          future: recibirPaquetes(),
+          future: recibirMedidas(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return Container(
@@ -32,114 +33,59 @@ class _PaquetesNoBajadosState extends State<PaquetesNoBajados> {
               );
             } else {
               return LayoutBuilder(
-                builder: (context, constraints) =>
-                    SingleChildScrollView(
+                builder: (context, constraints) => SingleChildScrollView(
+                    child: Center(
                       child: Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                    minWidth: constraints.maxWidth),
-                                child: DataTable(
-                                    columns: <DataColumn>[
-                                      DataColumn(
-                                          label: Text(
-                                            "ID",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.00),
-                                          )),
-                                      DataColumn(
-                                          numeric: true,
-                                          label: Text(
-                                            "Fecha",
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButton<String>(
+                                items: medidas.map((m) {
+                                  return new DropdownMenuItem<String>(
+                                    value: m.id,
+                                    child: new Text(m.id),
+                                  );
+                                }).toList(),
+                                hint: Text("Medida"),
+                                onChanged: (String val) {
+                                  setState(() {
+                                    for(var i=0; i<medidas.length; i++){
+                                      if(medidas[i].id==val)
+                                        medida = medidas[i].toJson().toString();
+                                    }
 
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.00),
-                                          )),
-                                      DataColumn(
-                                          numeric: true,
-                                          label: Text(
-                                            "Tipo",
 
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.00),
-                                          ))
-                                    ],
-                                    rows: paquetes.map((e) =>
-                                        DataRow(cells: <DataCell>[
-                                          DataCell(Text(e.ID.toString(),
-                                            style: TextStyle(fontSize: 18.00),),
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DetallesPaquete(
-                                                            paquete: e),
-                                                  ));
-                                            },),
-                                          DataCell(Text(e.fecha.toString(),
-                                            style: TextStyle(fontSize: 18.00),),
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DetallesPaquete(
-                                                            paquete: e),
-                                                  ));
-                                            },),
-                                          DataCell(Text(e.calidad.toString(),
-                                            style: TextStyle(fontSize: 18.00),),
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DetallesPaquete(
-                                                            paquete: e),
-                                                  ));
-                                            },)
-                                        ]))
-                                        .toList()),
-                              ),
-                            ),
+                                  });
+                                }),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(medida),
+                          ),
+
                         ],
                       ),
-                    ),
+                    )
+                ),
               );
             }
           },
-
         )
     );
   }
 
 
-  Future<List<Paquete>> recibirPaquetes() async {
-    var url = 'http://www.maderaexteriores.com/paquetes';
+  Future<List<Medida>> recibirMedidas() async {
+    var url = 'http://www.maderaexteriores.com/medidas';
     var uri = Uri.parse(url);
-    uri = uri.replace(query: 'barroteado=1');
-    var response = await http.get(uri, headers: {
-      "authorization": "Martin",
-    });
+    var response = await http.get(uri);
+
     print(response.body);
-    //Decode a JSON-encoded string into a Dart object with jsonDecode():
-    //The Map object is a simple key/value pair. Keys and values in a map may be of any type.
-    // A Map is a dynamic collection. In other words, Maps can grow and shrink at runtime.
     //De stringjson a json, de json a lista, de lista a map, de map a lista.
-    paquetes = (jsonDecode(response.body) as List).map((i) =>
-        Paquete.fromJson(i)).toList();
+    medidas = (jsonDecode(response.body) as List).map((i) =>
+        Medida.fromJson(i)).toList();
 
-    return paquetes;
+    return medidas;
   }
-
 
 }

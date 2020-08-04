@@ -96,7 +96,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
                           ),
                         ),
                       if(widget.paquete.estado == 'stock' &&
-                          widget.paquete.barroteado == 1)
+                          widget.paquete.medida.barroteado == 1)
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Ink(

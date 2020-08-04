@@ -192,6 +192,8 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
       "authorization": "Martin",
     });
 
+    print(widget.paquete.toJson().toString());
+
     print(response.body);
 
     if(response.body=='exito al guardar en bd'){
@@ -211,8 +213,8 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
 
     //Para calcular el cúbico hacemos una suma del cúbico de cada pieza, recorriendo el array todos,pasando a metros
     for(var i=0; i<todos.length; i++){
-      cubicoP = (todos[i] / 100) * (widget.paquete.grosor / 1000) *
-          (widget.paquete.largo / 1000);
+      cubicoP = (todos[i] / 100) * (widget.paquete.medida.grosor / 1000) *
+          (widget.paquete.medida.largo / 1000);
       cubicoT=cubicoT+cubicoP;
 
     }

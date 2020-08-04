@@ -79,7 +79,7 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
                                           builder: (context) =>
                                               DetallesPaquete(paquete: e),
                                         ));
-                                  },),DataCell(Text(e.calidad.toString(),style: TextStyle(fontSize: 18.00),),onTap: () {
+                                  },),DataCell(Text(e.medida.calidad.toString(),style: TextStyle(fontSize: 18.00),),onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -112,9 +112,15 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
     });
 
     print(response.body);
+    print('fin');
     //De stringjson a json, de json a lista, de lista a map, de map a lista.
-    paquetes = (jsonDecode(response.body) as List).map((i) =>
-        Paquete.fromJson(i)).toList();
+    try{
+      paquetes = (jsonDecode(response.body) as List).map((i) =>
+          Paquete.fromJson(i)).toList();
+    }catch(error){
+      print(error);
+    }
+
 
     return paquetes;
   }
