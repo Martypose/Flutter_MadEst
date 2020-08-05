@@ -14,7 +14,8 @@ class DatosPaqueteMedir extends StatefulWidget {
 }
 
 class _DatosPaqueteMedirState extends State<DatosPaqueteMedir> {
-  List medidas;
+  List<Medida> medidas;
+  List<Medida> noMedibles;
   String datosMedida = 'Nada seleccionado';
   Medida medida;
 
@@ -64,7 +65,7 @@ class _DatosPaqueteMedirState extends State<DatosPaqueteMedir> {
                                   setState(() {
                                     for(var i=0; i<medidas.length; i++){
                                       if(medidas[i].id==val){
-                                        datosMedida = medidas[i].toJson().toString();
+                                        datosMedida = 'Vas a medir un paquete de '+medidas[i].id;
                                         medida = medidas[i];
                                       }
 
@@ -115,6 +116,21 @@ class _DatosPaqueteMedirState extends State<DatosPaqueteMedir> {
     //De stringjson a json, de json a lista, de lista a map, de map a lista.
     medidas = (jsonDecode(response.body) as List).map((i) =>
         Medida.fromJson(i)).toList();
+
+
+    for(var i=medidas.length-1; i>-1; i--){
+      if(medidas[i].esMedible==0){
+        print(medidas[i].id+' no es medible');
+        try{
+        medidas.remove(medidas[i]);
+        }catch(error){
+          print('el error es '+ error);
+        }
+      }
+    }
+    //medidas.remove(noMedibles);
+    print('-----'+medidas.length.toString());
+
     return medidas;
   }
   

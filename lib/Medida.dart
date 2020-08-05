@@ -9,8 +9,7 @@ class Medida {
   String calidad;
   int largo;
   int esMedible;
-  int numPropio;
-  Medida(String id, var ancho, int grosor, int largo, int esMedible, int numPropio,int barroteado, int homogeneo, String calidad) {
+  Medida(String id, var ancho, int grosor, int largo, int esMedible,int barroteado, int homogeneo, String calidad) {
     this.id = id;
     this.barroteado = barroteado;
     this.homogeneo = homogeneo;
@@ -19,10 +18,9 @@ class Medida {
     this.grosor = grosor;
     this.largo = largo;
     this.esMedible = esMedible;
-    this.numPropio = numPropio;
   }
 
-  Medida.MedidaSinAncho(String id, int grosor, int largo, int esMedible, int numPropio,int barroteado, int homogeneo, String calidad) {
+  Medida.MedidaSinAncho(String id, int grosor, int largo, int esMedible,int barroteado, int homogeneo, String calidad) {
     this.id = id;
     this.barroteado = barroteado;
     this.homogeneo = homogeneo;
@@ -30,7 +28,7 @@ class Medida {
     this.grosor = grosor;
     this.largo = largo;
     this.esMedible = esMedible;
-    this.numPropio = numPropio;
+
   }
 
 
@@ -44,7 +42,6 @@ class Medida {
       calidad = json['calidad'];
       largo = json['largo'];
       esMedible = json['esMedible'];
-      numPropio = json['numPropio'];
     }else{
       id = json['id'];
       ancho = '0';
@@ -54,8 +51,6 @@ class Medida {
       grosor = json['grosor'];
       largo = json['largo'];
       esMedible = json['esMedible'];
-      numPropio = json['numPropio'];
-
 
     }
   }
@@ -68,7 +63,6 @@ class Medida {
         'grosor': grosor,
         'largo': largo,
         'esMedible': esMedible,
-        'numPropio': numPropio,
         'barroteado' : barroteado,
         'homogeneo' : homogeneo,
         'calidad' : calidad

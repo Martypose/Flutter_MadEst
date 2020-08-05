@@ -49,7 +49,7 @@ class Paquete{
 
   Paquete.fromJson(Map<String, dynamic> json)
       : ID = json['ID'],
-        medida = Medida(json['medida'],json['ancho'],json['grosor'],json['largo'],json['esMedible'],json['numPropio'],json['barroteado'],json['homogeneo'],json['calidad']),
+        medida = Medida(json['medida'],json['ancho'],json['grosor'],json['largo'],json['esMedible'],json['barroteado'],json['homogeneo'],json['calidad']),
         cantidades = jsonDecode('[' + json['cantidades'] + ']'),
         seco = json['seco'],
         fecha = json['fechaCreacion'],
