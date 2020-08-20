@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'Medida.dart';
 import 'Paquete.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,12 +14,11 @@ class NuevoPaquete extends StatefulWidget {
 
 class _NuevoPaqueteState extends State<NuevoPaquete> {
 
-  // this allows us to access the TextField text
-  TextEditingController ControlGrosor = TextEditingController();
-  TextEditingController ControlLargo = TextEditingController();
-  TextEditingController ControlAncho = TextEditingController();
-  TextEditingController ControlNPiezas = TextEditingController();
 
+  TextEditingController ControlNPiezas = TextEditingController();
+  List<Medida> medidas;
+  String datosMedida = 'Nada seleccionado';
+  Medida medida;
   var url = 'http://www.maderaexteriores.com/paquetes';
   var calidad = 'Selecciona calidad';
   var punto = 'Selecciona el tipo';
@@ -30,108 +30,100 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
           title: Text('Introduce datos'),
           backgroundColor: const Color(0xff37323e),
         ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical, child: Container(child: Center(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: ControlAncho,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Ancho',
-                  ),
+        body: FutureBuilder(
+          future: recibirMedidas(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return Container(
+                child: Center(
+                  child: Text('Cargando...'),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  controller: ControlGrosor,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Grosor',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: ControlLargo,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Largo',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: ControlNPiezas,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Numero de piezas',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButton<String>(
-                    items: <String>['limpia', 'semilimpia', 'normal', 'mala']
-                        .map((String calidad) {
-                      return new DropdownMenuItem<String>(
-                        value: calidad,
-                        child: new Text(calidad),
-                      );
-                    }).toList(),
-                    hint: Text(calidad),
-                    onChanged: (String val) {
-                      setState(() {
-                        calidad = val;
-                      });
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButton<String>(
-                    items: <String>['verde', 'bajado'].map((String punto) {
-                      return new DropdownMenuItem<String>(
-                        value: punto,
-                        child: new Text(punto),
-                      );
-                    }).toList(),
-                    hint: Text(punto),
-                    onChanged: (String val) {
-                      setState(() {
-                        punto = val;
-                      });
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RaisedButton(
-                  child: Text('Guardar'), textColor: const Color(0xfffcfcfc),
-                  color: const Color(0xff37323e),
-                  onPressed: () {
-                    if (calidad != 'Selecciona calidad' &&
-                        punto != 'Selecciona el tipo') {
-                      Paquete paquete = Paquete(null);
-                      paquete.medida.calidad = calidad;
-                      enviarPaquete(paquete);
-                    }
-                    // Navigate to the second screen using a named route.
-                  },
-                ),
-              ),
+              );
+            } else {
+              return LayoutBuilder(
+                builder: (context, constraints) => SingleChildScrollView(
+                    child: Center(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButton<String>(
+                              // ignore: missing_return
+                                items:
+                                medidas.map((m) {
+                                  print(m.esMedible);
+                                  return new DropdownMenuItem<String>(
+                                    value: m.id,
+                                    child: new Text(m.id),
+                                  );
+                                }).toList(),
+                                hint: Text("Medida"),
+                                onChanged: (String val) {
+                                  setState(() {
+                                    for(var i=0; i<medidas.length; i++){
+                                      if(medidas[i].id==val){
+                                        datosMedida = 'Vas a medir un paquete de '+medidas[i].id;
+                                        medida = medidas[i];
+                                      }
 
-            ],
-          ),
-        ), margin: const EdgeInsets.only(top: 20.0),
-        ),)
+                                    }
+
+
+                                  });
+                                }),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(datosMedida),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              controller: ControlNPiezas,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Numero de piezas',
+                              ),
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RaisedButton(
+                              child: Text('Medir paquete'),textColor: const Color(0xfffcfcfc),
+                              color: const Color(0xff37323e),
+                              onPressed: () {
+                                Paquete paquete = Paquete(medida);
+                                comprobarValores(medida,paquete);
+                                enviarPaquete(paquete);
+                                // Navigate to the second screen using a named route.
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                ),
+              );
+            }
+          },
+        )
     );
+  }
+  
+  Paquete comprobarValores(Medida m, Paquete p){
+    print(m.toJson().toString());
+    if(ControlNPiezas.text.length>0 && ControlNPiezas.text!=' '){
+      p.setNumPiezas(int.parse(ControlNPiezas.text));
+      if(m.ancho!=null && m.ancho!=0)
+        print('entro en setcubico');
+        p.setCubico(((m.ancho*m.grosor*m.largo)/1000000000)*int.parse(ControlNPiezas.text));
+        print(p.cubico);
+
+    }
+    return p;
+    
   }
 
 
@@ -209,5 +201,32 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
         return alert;
       },
     );
+  }
+
+  Future<List<Medida>> recibirMedidas() async {
+    var url = 'http://www.maderaexteriores.com/medidas';
+    var uri = Uri.parse(url);
+    var response = await http.get(uri);
+
+    print(response.body);
+    //De stringjson a json, de json a lista, de lista a map, de map a lista.
+    medidas = (jsonDecode(response.body) as List).map((i) =>
+        Medida.fromJson(i)).toList();
+
+
+    for(var i=medidas.length-1; i>-1; i--){
+      if(medidas[i].esMedible==1){
+        print(medidas[i].id+' es medible');
+        try{
+          medidas.remove(medidas[i]);
+        }catch(error){
+          print('el error es '+ error);
+        }
+      }
+    }
+    //medidas.remove(noMedibles);
+    print('-----'+medidas.length.toString());
+
+    return medidas;
   }
 }

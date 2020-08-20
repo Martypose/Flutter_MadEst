@@ -4,21 +4,22 @@ import 'package:http/http.dart' as http;
 import 'Paquete.dart';
 import 'DetallesPaquete.dart';
 
-class PaquetesBajados extends StatefulWidget {
+class VerPaquetes extends StatefulWidget {
   @override
-  _PaquetesBajadosState createState() {
-    return _PaquetesBajadosState();
+  _VerPaquetesState createState() {
+    return _VerPaquetesState();
   }
 }
 
-class _PaquetesBajadosState extends State<PaquetesBajados> {
+class _VerPaquetesState extends State<VerPaquetes> {
   List paquetes;
+  int numpaquetes;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Paquetes macizos"),
+          title: Text("Hay $numpaquetes Paquetes"),
           backgroundColor: const Color(0xff37323e),
         ),
         body: FutureBuilder(
@@ -58,7 +59,7 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
                                   DataColumn(
                                       numeric: true,
                                       label: Text(
-                                        "Tipo",
+                                        "Estado",
 
                                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.00),
                                       ))
@@ -79,7 +80,7 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
                                           builder: (context) =>
                                               DetallesPaquete(paquete: e),
                                         ));
-                                  },),DataCell(Text(e.medida.calidad.toString(),style: TextStyle(fontSize: 18.00),),onTap: () {
+                                  },),DataCell(Text(e.estado.toString(),style: TextStyle(fontSize: 18.00),),onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -121,9 +122,12 @@ class _PaquetesBajadosState extends State<PaquetesBajados> {
       print(error);
     }
 
-
+    if(paquetes.length!=numpaquetes){
+      setState(() {
+        numpaquetes=paquetes.length;
+      });
+    }
     return paquetes;
   }
-
 
 }

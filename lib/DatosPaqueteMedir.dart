@@ -19,11 +19,6 @@ class _DatosPaqueteMedirState extends State<DatosPaqueteMedir> {
   String datosMedida = 'Nada seleccionado';
   Medida medida;
 
-  // this allows us to access the TextField text
-  TextEditingController ControlGrosor = TextEditingController();
-  TextEditingController ControlLargo = TextEditingController();
-  var calidad = 'Selecciona calidad';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -7,7 +7,6 @@ class Paquete{
   var ID;
   Medida medida;
   String fecha;
-  int seco;
   String estado;
   var cubico;
   int numpiezas;
@@ -23,7 +22,6 @@ class Paquete{
     this.numpiezas = 0;
     this.cubico = 0.0;
     this.fecha = newFormat.format(dt);
-    this.seco = 1;
     this.estado = "stock";
   }
 
@@ -43,27 +41,21 @@ class Paquete{
     this.numpiezas = numpiezas;
   }
 
-  setVerde() {
-    this.seco = 0;
-  }
 
   Paquete.fromJson(Map<String, dynamic> json)
       : ID = json['ID'],
         medida = Medida(json['medida'],json['ancho'],json['grosor'],json['largo'],json['esMedible'],json['barroteado'],json['homogeneo'],json['calidad']),
         cantidades = jsonDecode('[' + json['cantidades'] + ']'),
-        seco = json['seco'],
         fecha = json['fechaCreacion'],
         estado = json['estado'],
         cubico = json['cubico'],
         numpiezas = json['numpiezas'];
-
 
   Map<String, dynamic> toJson() =>
       {
         'ID': ID,
         'medida' : medida.id,
         'cantidades': cantidades.join(','),
-        'seco': seco,
         'fecha' : fecha,
         'estado' : estado,
         'cubico': cubico,

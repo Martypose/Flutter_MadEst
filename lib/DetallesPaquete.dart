@@ -124,8 +124,9 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
 
   Future<void> actualizarPaquete(Paquete paquete) async {
     var url = 'http://www.maderaexteriores.com/paquetes/${paquete.ID}';
+    print(paquete.toJson());
     var response = await http.put(Uri.encodeFull(url),
-        body: json.encode({ 'paquete': paquete.toJson()}),
+        body: json.encode({ 'estado': paquete.estado}),
         headers: {
           "content-type": "application/json",
           "accept": "application/json",

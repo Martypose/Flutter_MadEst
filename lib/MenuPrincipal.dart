@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madeirasestanqueiro/DatosPaqueteMedir.dart';
 import 'package:madeirasestanqueiro/NuevoPaquete.dart';
-import 'Avisos.dart';
-import 'PaquetesBajados.dart';
-import 'PaquetesNoBajados.dart';
+import 'VerPaquetes.dart';
 import 'FiltrarPaquetes.dart';
 
 class MenuPrincipal extends StatelessWidget {
@@ -33,7 +31,7 @@ class MenuPrincipal extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     child: RaisedButton(
                       child: Text(
-                          'PAQUETES MACIZOS', textAlign: TextAlign.center,
+                          'VER PAQUETES', textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20)),
                       textColor: const Color(0xffffffff),
                       color: const Color(0xff37323e),
@@ -42,7 +40,7 @@ class MenuPrincipal extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PaquetesBajados(),
+                              builder: (context) => VerPaquetes(),
                             ));
                       },
                     ),
@@ -65,24 +63,6 @@ class MenuPrincipal extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: RaisedButton(
-                      child: Text(
-                          'PAQUETES BARROTEADOS', textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20)),
-                      textColor: const Color(0xffffffff),
-                      color: const Color(0xff37323e),
-                      onPressed: () {
-                        // Navigate to the second screen using a named route.
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PaquetesNoBajados(),
-                            ));
-                      },
-                    ),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: RaisedButton(
                       child: Text('NUEVO PAQUETE',textAlign: TextAlign.center,style: TextStyle(fontSize: 20)),textColor: const Color(0xffffffff),
                       color: const Color(0xff37323e),
                       onPressed: () {
@@ -91,23 +71,6 @@ class MenuPrincipal extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => NuevoPaquete(),
-                            ));
-                      },
-                    ),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: RaisedButton(
-                      child: Text('VER AVISOS', textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20)),
-                      textColor: const Color(0xffffffff),
-                      color: const Color(0xff37323e),
-                      onPressed: () {
-                        // Navigate to the second screen using a named route.
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Avisos(),
                             ));
                       },
                     ),

@@ -36,6 +36,7 @@ class Medida {
   {
     if (json['ancho'].toString()!=null) {
       id = json['id'];
+      ancho = json['ancho'];
       grosor = json['grosor'];
       barroteado = json['barroteado'];
       homogeneo = json['homogeneo'];

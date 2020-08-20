@@ -27,10 +27,8 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
   var url = 'http://www.maderaexteriores.com/paquetes/buscarPaquetes';
   var calidad = 'Selecciona calidad';
   bool barroteado = false;
-  double sliderSeco = 0.0;
   double sliderBarroteado = 0.0;
   double sliderStock = 0.0;
-  String labelSeco = 'Sin filtro';
   String labelBarroteado = 'Sin filtro';
   String labelStock = 'Sin filtro';
   bool stock = false;
@@ -125,19 +123,6 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('Humedad'),
-                        Slider(
-                          value: sliderSeco,
-                          onChanged: (newSeco) {
-                            setState(() {
-                              sliderSeco = newSeco;
-                              print(sliderSeco);
-                              ajustarValoresSiders();
-                            });
-                          },
-                          divisions: 2,
-                          label: '$labelSeco',
-                        ),
                         Text('Estructura'),
                         Slider(
                           value: sliderBarroteado,
@@ -230,13 +215,6 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
 
   //Según los valores que van cambiando en los sliders, cambiamos también las etiquestas a mostrar para cada uno
   void ajustarValoresSiders() {
-    if (sliderSeco < 0.5) {
-      labelSeco = 'Sin filtro';
-    } else if (sliderSeco > 0.49 && sliderSeco < 1) {
-      labelSeco = 'Verde';
-    } else if (sliderSeco > 0.50) {
-      labelSeco = 'Seco';
-    }
 
     if (sliderBarroteado < 0.5) {
       labelBarroteado = 'Sin filtro';
@@ -315,11 +293,6 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
 
     //Filtros slider
 
-    if (labelSeco == 'Verde') {
-      consulta = consulta + ' seco=false AND';
-    } else if (labelSeco == 'Seco') {
-      consulta = consulta + ' seco=true AND';
-    }
 
     if (labelStock == 'Stock') {
       consulta = consulta + ' estado=\'stock\' AND';
