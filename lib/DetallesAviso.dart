@@ -209,7 +209,7 @@ class _DetallesAvisoState extends State<DetallesAviso> {
     String mensaje;
 
     // set up the button
-    Widget okButton = FlatButton(
+    Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
         switch (orden) {
@@ -230,7 +230,7 @@ class _DetallesAvisoState extends State<DetallesAviso> {
         }
       },
     );
-    Widget noButton = FlatButton(
+    Widget noButton = TextButton(
       child: Text("No"),
       onPressed: () {
         Navigator.pop(context);

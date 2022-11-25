@@ -29,12 +29,10 @@ class MenuPrincipal extends StatelessWidget {
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       child: Text(
                           'VER PAQUETES', textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20)),
-                      textColor: const Color(0xffffffff),
-                      color: const Color(0xff37323e),
                       onPressed: () {
                         // Navigate to the second screen using a named route.
                         Navigator.push(
@@ -47,9 +45,8 @@ class MenuPrincipal extends StatelessWidget {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: RaisedButton(
-                      child: Text('MEDIR PAQUETES',textAlign: TextAlign.center,style: TextStyle(fontSize: 20)),textColor: const Color(0xffffffff),
-                      color: const Color(0xff37323e),
+                    child: ElevatedButton(
+                      child: Text('MEDIR PAQUETES',textAlign: TextAlign.center,style: TextStyle(fontSize: 20)),
                       onPressed: () {
                         // Navigate to the second screen using a named route.
                         Navigator.push(
@@ -62,9 +59,8 @@ class MenuPrincipal extends StatelessWidget {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: RaisedButton(
-                      child: Text('NUEVO PAQUETE',textAlign: TextAlign.center,style: TextStyle(fontSize: 20)),textColor: const Color(0xffffffff),
-                      color: const Color(0xff37323e),
+                    child: ElevatedButton(
+                      child: Text('NUEVO PAQUETE',textAlign: TextAlign.center,style: TextStyle(fontSize: 20)),
                       onPressed: () {
                         // Navigate to the second screen using a named route.
                         Navigator.push(
@@ -77,12 +73,10 @@ class MenuPrincipal extends StatelessWidget {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       child: Text(
                           'BUSCAR PAQUETES', textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20)),
-                      textColor: const Color(0xffffffff),
-                      color: const Color(0xff37323e),
                       onPressed: () {
                         // Navigate to the second screen using a named route.
                         Navigator.push(

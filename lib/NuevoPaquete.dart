@@ -90,9 +90,8 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
 
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                              child: Text('Medir paquete'),textColor: const Color(0xfffcfcfc),
-                              color: const Color(0xff37323e),
+                            child: ElevatedButton(
+                              child: Text('Medir paquete'),
                               onPressed: () {
                                 Paquete paquete = Paquete(medida);
                                 comprobarValores(medida,paquete);
@@ -164,7 +163,7 @@ class _NuevoPaqueteState extends State<NuevoPaquete> {
     }
 
     // set up the button
-    Widget okButton = FlatButton(
+    Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
         switch (respuesta) {

@@ -81,7 +81,7 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
                 children: <Widget>[
                   //Para cada número creamos un boton con el número como texto
                   for (var numero in numeros)
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () {
 
                         //Al hacer tap actualizamos cantidades, ultimapieza y todos.
@@ -99,8 +99,6 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
                         });
                       },
                       child: Text('$numero', style: TextStyle(fontSize: 20)),
-                      textColor: const Color(0xfffcfcfc),
-                      color: const Color(0xff37323e),
                     )
                 ],
               ),
@@ -120,7 +118,7 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: () {
                           setState(() {
                             print('Para el numero ' +
@@ -139,7 +137,7 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
                     ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: () {
                           setState(() {
                             //Guardamos las cantidades en el objeto paquete.
@@ -224,7 +222,7 @@ class _MedicionPaqueteState extends State<MedicionPaquete>{
 
   showAlertDialog(BuildContext context) {
     // set up the button
-    Widget okButton = FlatButton(
+    Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
         Navigator.of(context).popUntil((route) => route.isFirst);

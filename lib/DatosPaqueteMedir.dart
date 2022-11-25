@@ -77,10 +77,9 @@ class _DatosPaqueteMedirState extends State<DatosPaqueteMedir> {
 
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                              child: Text('Medir paquete'),textColor: const Color(0xfffcfcfc),
-                              color: const Color(0xff37323e),
-                              onPressed: () {
+                            child: ElevatedButton (
+                              child: Text('Medir paquete'),
+                                onPressed: () {
                                   Paquete paquete = Paquete(medida);
                                   Navigator.push(
                                       context,

@@ -146,7 +146,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
     String mensaje;
 
     // set up the button
-    Widget okButton = FlatButton(
+    Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
         switch (orden) {
@@ -169,7 +169,7 @@ class _DetallesPaqueteState extends State<DetallesPaquete> {
         }
       },
     );
-    Widget noButton = FlatButton(
+    Widget noButton =	TextButton(
       child: Text("No"),
       onPressed: () {
         Navigator.pop(context);

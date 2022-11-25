@@ -196,9 +196,7 @@ class _FiltrarPaquetesState extends State<FiltrarPaquetes> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      textColor: Colors.white,
-                      color: const Color(0xff37323e),
+                    child: ElevatedButton(
                       child: Text('BUSCAR'),
                       onPressed: () {
                         enviarConsulta();
